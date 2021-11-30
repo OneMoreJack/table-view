@@ -35,10 +35,7 @@
       >
         <slot name="reference">
           <div>
-            <img
-              src="@/assets/img/icon--list.png"
-              alt="图标-列表"
-            >
+            <i class="el-icon-menu"></i>
             <span
               class="btn"
               :class="{ isActive: visible }"
