@@ -17,29 +17,22 @@
           v-for="item in columns"
           :key="item.prop"
           :label="item.prop"
-        >{{ item.label }}</el-checkbox>
+          >{{ item.label }}</el-checkbox
+        >
       </el-checkbox-group>
 
       <div class="btn-wrapper">
         <el-button @click="closePopover">关闭</el-button>
-        <el-button
-          class="button--confirm"
-          type="primary"
-          @click="handleConfirm"
-        >确定</el-button>
+        <el-button class="button--confirm" type="primary" @click="handleConfirm"
+          >确定</el-button
+        >
       </div>
 
-      <div
-        slot="reference"
-        class="columns-customer__trigger"
-      >
+      <div slot="reference" class="columns-customer__trigger">
         <slot name="reference">
           <div>
             <i class="el-icon-menu"></i>
-            <span
-              class="btn"
-              :class="{ isActive: visible }"
-            >
+            <span class="btn" :class="{ isActive: visible }">
               表格自定义
               <i class="el-icon-arrow-down" />
             </span>
@@ -52,56 +45,56 @@
 
 <script>
 export default {
-  name: 'ColumnsCustomize',
+  name: "ColumnsCustomize",
 
   props: {
     // 所有可以选择的列
     columns: {
       type: Array,
-      required: true
+      required: true,
     },
 
     columnMinCount: {
       type: Number,
-      default: 3
+      default: 3,
     },
 
     // 列表自定义处理方法
     columnCustomMethod: {
       type: Function,
-      required: true
+      required: true,
     },
 
     popoverWidth: {
       type: [Number, String],
-      default: 840
+      default: 840,
     },
 
     hideTip: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
 
   data() {
     return {
       visible: false,
-      checkedColumns: []
+      checkedColumns: [],
     };
   },
 
   watch: {
-    'columns': {
+    columns: {
       handler() {
         this.init();
       },
-      immediate: true
+      immediate: true,
     },
 
     // visible为false时重置数据
     visible(val) {
       if (!val) this.resetCheckedColumns();
-    }
+    },
   },
 
   methods: {
@@ -123,10 +116,10 @@ export default {
 
     resetCheckedColumns() {
       this.checkedColumns = this.columns
-        .filter(item => item.show)
-        .map(item => item.prop);
-    }
-  }
+        .filter((item) => item.show)
+        .map((item) => item.prop);
+    },
+  },
 };
 </script>
 
@@ -152,7 +145,7 @@ export default {
         color: $active-color;
       }
       i {
-        transition: .3s;
+        transition: 0.3s;
       }
 
       &.isActive {

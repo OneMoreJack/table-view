@@ -1,21 +1,21 @@
-import TableView from '../index';
-import Table from '../Table';
+import TableView from "../index";
+import Table from "../Table";
 import {
   Table as ElTable,
   Button as ElButton,
   TableColumn as ElTableColumn,
-  Pagination as ElPagination
-} from 'element-ui';
-import { shallowMount, mount, enableAutoDestroy } from '@vue/test-utils';
-import { tableData, columns } from './utils';
+  Pagination as ElPagination,
+} from "element-ui";
+import { shallowMount, mount, enableAutoDestroy } from "@vue/test-utils";
+import { tableData, columns } from "./utils";
 
-const isFunc = item => typeof item === 'function';
+const isFunc = (item) => typeof item === "function";
 
-const getListMethod = jest.fn(async() => {
+const getListMethod = jest.fn(async () => {
   return {
     listData: tableData,
     total: tableData.length,
-    page: 1
+    page: 1,
   };
 });
 
@@ -24,7 +24,7 @@ function factory({
   scopedSlots = {},
   stubs = {},
   propsData = {},
-  useMount = false
+  useMount = false,
 } = {}) {
   const mountFn = useMount ? mount : shallowMount;
 
@@ -34,15 +34,15 @@ function factory({
       ElPagination,
       ElTable,
       ElTableColumn,
-      ...stubs
+      ...stubs,
     },
     slots,
     scopedSlots,
     propsData: {
       columns,
       getListMethod,
-      ...propsData
-    }
+      ...propsData,
+    },
   });
 }
 
@@ -53,13 +53,13 @@ afterEach(() => {
 
 enableAutoDestroy(afterEach);
 
-describe('TableView', () => {
-  describe('@props:', () => {
-    test('should work with `autoFetch` prop', () => {
+describe("TableView", () => {
+  describe("@props:", () => {
+    test("should work with `autoFetch` prop", () => {
       factory({
         propsData: {
-          autoFetch: false
-        }
+          autoFetch: false,
+        },
       });
 
       const calls = getListMethod.mock.calls;
@@ -67,14 +67,14 @@ describe('TableView', () => {
       expect(calls.length).toBe(0);
     });
 
-    test('should work with `defaultSearchParams` prop', async() => {
+    test("should work with `defaultSearchParams` prop", async () => {
       factory({
         propsData: {
           defaultSearchParams: {
-            name: 'hello',
-            address: 'world'
-          }
-        }
+            name: "hello",
+            address: "world",
+          },
+        },
       });
 
       const calls = getListMethod.mock.calls;
@@ -82,47 +82,47 @@ describe('TableView', () => {
 
       const initCall = calls[0];
       const [params] = initCall;
-      expect(params.name).toBe('hello');
-      expect(params.address).toBe('world');
+      expect(params.name).toBe("hello");
+      expect(params.address).toBe("world");
     });
 
-    test('should work with `useColumnCustomer` prop', async() => {
+    test("should work with `useColumnCustomer` prop", async () => {
       const columnCustomMethod = jest.fn();
       const wrapper = factory({
         propsData: {
           useColumnCustomer: true,
-          columnCustomMethod
-        }
+          columnCustomMethod,
+        },
       });
 
-      expect(wrapper.find('.table__cumtomer').exists()).toBe(true);
+      expect(wrapper.find(".table__cumtomer").exists()).toBe(true);
     });
   });
 
-  describe('@slots:', () => {
-    test('filter', () => {
+  describe("@slots:", () => {
+    test("filter", () => {
       const wrapper = factory({
         scopedSlots: {
           filter: `<template slot-scope="{ search }">
             <div class="slot-filter" @click="search({ name: 'hello' })">filter slot</div>
-          </template>`
-        }
+          </template>`,
+        },
       });
 
-      const filter = wrapper.find('.slot-filter');
+      const filter = wrapper.find(".slot-filter");
       expect(filter.exists()).toBe(true);
 
       // 清楚 mock 函数调用记录
       getListMethod.mockClear();
-      filter.trigger('click');
+      filter.trigger("click");
       const call = getListMethod.mock.calls[0];
       const [params] = call;
 
-      expect(params.name).toBe('hello');
+      expect(params.name).toBe("hello");
       expect(params.pageNum).toBe(1);
     });
 
-    test('toolBar', () => {
+    test("toolBar", () => {
       const wrapper = factory({
         stubs: { ElButton },
         scopedSlots: {
@@ -130,11 +130,11 @@ describe('TableView', () => {
             <div class="slot-toolBar">
               <el-button >导出</el-button>
             </div>
-          </template>`
-        }
+          </template>`,
+        },
       });
 
-      const toolBar = wrapper.find('.slot-toolBar');
+      const toolBar = wrapper.find(".slot-toolBar");
       expect(toolBar.exists()).toBe(true);
     });
 
@@ -157,8 +157,8 @@ describe('TableView', () => {
     }); */
   });
 
-  describe('public methods', () => {
-    test('check the existence of public methods', () => {
+  describe("public methods", () => {
+    test("check the existence of public methods", () => {
       const wrapper = factory();
       expect(isFunc(wrapper.vm.search)).toBe(true);
       expect(isFunc(wrapper.vm.setSearchParams)).toBe(true);
@@ -167,25 +167,25 @@ describe('TableView', () => {
       expect(isFunc(wrapper.vm.getElTable)).toBe(true);
     });
 
-    test('search', async() => {
+    test("search", async () => {
       const wrapper = factory();
       getListMethod.mockClear();
-      wrapper.vm.search({ name: '' });
+      wrapper.vm.search({ name: "" });
 
       const calls = getListMethod.mock.calls;
       const [params] = calls[0];
       expect(params.pageNum).toBe(1);
-      expect(params.name).toBe('');
+      expect(params.name).toBe("");
     });
 
-    test('getElTable', () => {
+    test("getElTable", () => {
       const wrapper = factory({
-        useMount: true
+        useMount: true,
       });
 
       const result = wrapper.vm.getElTable();
 
-      expect(result.$options.name).toBe('ElTable');
+      expect(result.$options.name).toBe("ElTable");
     });
   });
 });

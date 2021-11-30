@@ -8,49 +8,49 @@
         render(h, {row, col, rowIdx, colIdx})
 */
 const DEFAULT_TABLE_PROPS = {
-  border: true
+  border: true,
 };
 export default {
-  name: 'ZbTable',
+  name: "ZbTable",
 
   props: {
     // 要展示的列
     columns: {
       type: Array,
       required: true,
-      validator: function(columns) {
+      validator: function (columns) {
         // 每列数据必须包含 label 和 prop
-        return columns.every(col => col.label && col.prop);
-      }
+        return columns.every((col) => col.label && col.prop);
+      },
     },
 
     // 表格数据
     data: {
       type: Array,
-      required: true
+      required: true,
     },
 
     // ElTable 的 props
     elTableProps: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
 
     columnAlign: {
       type: String,
-      default: 'left'
+      default: "left",
     },
 
     useSelection: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
 
   methods: {
     getElTable() {
       return this.$refs.elTable;
-    }
+    },
   },
 
   render(h) {
@@ -59,58 +59,61 @@ export default {
     const columns = this.columns.map((column, idx) => {
       const columnSlot = allSlots[column.prop];
 
-      return h('el-table-column', {
+      return h("el-table-column", {
         key: column.prop,
         props: {
           label: column.label,
           prop: column.prop,
           align: this.columnAlign,
-          ...(column.elProps || {})
+          ...(column.elProps || {}),
         },
-        scopedSlots: column.render || columnSlot
-          ? {
-            default: (props) => {
-              const scope = {
-                row: props.row,
-                col: column,
-                rowIdx: props.$index, /* 行序号 */
-                colIdx: idx /* 列序号 */
-              };
+        scopedSlots:
+          column.render || columnSlot
+            ? {
+                default: (props) => {
+                  const scope = {
+                    row: props.row,
+                    col: column,
+                    rowIdx: props.$index /* 行序号 */,
+                    colIdx: idx /* 列序号 */,
+                  };
 
-              return column.render ? column.render(h, scope) : columnSlot(scope);
-            }
-          }
-          : {}
+                  return column.render
+                    ? column.render(h, scope)
+                    : columnSlot(scope);
+                },
+              }
+            : {},
       });
     });
 
     // 插入选择框列
     if (this.useSelection) {
-      const selectionColumn = h('el-table-column', {
+      const selectionColumn = h("el-table-column", {
         props: {
-          type: 'selection'
-        }
+          type: "selection",
+        },
       });
       columns.unshift(selectionColumn);
     }
 
     const table = h(
-      'el-table',
+      "el-table",
       {
-        ref: 'elTable',
+        ref: "elTable",
         props: {
           ...DEFAULT_TABLE_PROPS,
           data: this.data,
-          ...this.elTableProps
+          ...this.elTableProps,
         },
         on: {
-          ...this.$listeners
-        }
+          ...this.$listeners,
+        },
       },
       columns
     );
 
     return table;
-  }
+  },
 };
 </script>

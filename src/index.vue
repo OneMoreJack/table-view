@@ -1,14 +1,8 @@
 <template>
   <div class="zb-table-view">
     <main class="zb-table-view__main">
-      <section
-        v-if="allSlots.filter"
-        class="table-view__filter"
-      >
-        <slot
-          name="filter"
-          :search="search"
-        />
+      <section v-if="allSlots.filter" class="table-view__filter">
+        <slot name="filter" :search="search" />
       </section>
 
       <section class="table-view__table">
@@ -16,20 +10,14 @@
           v-if="useColumnCustomer || allSlots.toolBar"
           class="table__toolbar-wrapper"
         >
-          <div
-            v-if="useColumnCustomer"
-            class="table__cumtomer"
-          >
+          <div v-if="useColumnCustomer" class="table__cumtomer">
             <ColumnCustomer
               v-bind="$attrs"
               :columns="columns"
               :column-custom-method="columnCustomMethod"
             />
           </div>
-          <div
-            v-if="allSlots.toolBar"
-            class="table__toolbar"
-          >
+          <div v-if="allSlots.toolBar" class="table__toolbar">
             <slot name="toolBar" />
           </div>
         </div>
@@ -73,22 +61,22 @@
 </template>
 
 <script>
-import { cloneDeep } from 'lodash';
-import ZbTable from './Table.vue';
-import ColumnCustomer from './ColumnCustomer.vue';
+import { cloneDeep } from "lodash";
+import ZbTable from "./Table.vue";
+import ColumnCustomer from "./ColumnCustomer.vue";
 
 export default {
-  name: 'TableView',
+  name: "TableView",
 
   components: {
     ZbTable,
-    ColumnCustomer
+    ColumnCustomer,
   },
 
   props: {
     columns: {
       type: Array,
-      required: true
+      required: true,
     },
 
     // 请求数据的方法
@@ -102,35 +90,35 @@ export default {
     // 2. 调用callback， 参数是列表数据
     getListMethod: {
       type: Function,
-      required: true
+      required: true,
     },
 
     autoFetch: {
       type: Boolean,
-      default: true
+      default: true,
     },
 
     useColumnCustomer: {
       type: Boolean,
-      default: false
+      default: false,
     },
 
     columnCustomMethod: {
       type: Function,
       validate(value) {
         if (this.useColumnCustomer) {
-          return typeof value === 'function';
+          return typeof value === "function";
         }
         return true;
       },
-      default: () => {}
+      default: () => {},
     },
 
     // 默认搜索参数
     defaultSearchParams: {
       type: Object,
-      default: undefined
-    }
+      default: undefined,
+    },
   },
 
   data() {
@@ -142,36 +130,37 @@ export default {
       // 分页相关数据
       pageNum: 1,
       pageSize: 10,
-      total: 0
+      total: 0,
     };
   },
 
   computed: {
     filteredColumns() {
-      return this.columns.filter(col => col.show);
+      return this.columns.filter((col) => col.show);
     },
 
     requestParams() {
       return {
         ...this.searchParams,
         pageNum: this.pageNum,
-        pageSize: this.pageSize
+        pageSize: this.pageSize,
       };
     },
 
     allSlots() {
       return {
         ...this.$slots,
-        ...this.$scopedSlots
+        ...this.$scopedSlots,
       };
     },
 
     // 所有列的插槽，插槽名为列的 prop
     columnSlots() {
-      const columnsProps = this.columns.map(col => col.prop);
-      return Object.keys(this.allSlots)
-        .filter(slotName => columnsProps.includes(slotName));
-    }
+      const columnsProps = this.columns.map((col) => col.prop);
+      return Object.keys(this.allSlots).filter((slotName) =>
+        columnsProps.includes(slotName)
+      );
+    },
   },
 
   created() {
@@ -220,7 +209,7 @@ export default {
     },
 
     handlePageChange(type, value) {
-      if (type === 'size') {
+      if (type === "size") {
         this.pageSize = value;
         this.pageNum = 1;
       } else this.pageNum = value;
@@ -239,8 +228,8 @@ export default {
       this.listData = listData || [];
       this.total = total || 0;
       this.pageNum = page || this.pageNum;
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -294,7 +283,7 @@ export default {
     height: 48px;
     padding-right: 32px;
     text-align: right;
-    border-top: 1px solid #EAEEF5;
+    border-top: 1px solid #eaeef5;
   }
 }
 </style>
