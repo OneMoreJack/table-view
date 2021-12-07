@@ -367,7 +367,8 @@ export default {
 | defaultSearchParams | Object | 否 | {} | 如果页面搜索含有默认参数且 `autoFetch` 为true, 可通过此属性设置默认参数
 | columnAlign | 'left'、'center'、'right' | 否 | 'left' | 表格对齐方式。如果你想单独设置某一列的对齐方式，可通过 `column` 对象的 `elProps.align` 进行设置
 | useColumnCustomer | Boolean | 否  | false  | 使用列表自定义     |
-| columnCustomMethod | Function | `useColumnCustomer` 为 true 是必传  | -  | 列表自定义方法，columnCustomMethod(props), 调用参数 props 是一个数组，包含所有选中的列的 prop   |
+| columnMinCount | Number | 否  | 3  | `useColumnCustomer` 为 true 时有效，限制最少列数     |
+| columnCustomMethod | Function | `useColumnCustomer` 为 true 时必传  | -  | 列表自定义方法，columnCustomMethod(props), 调用参数 props 是一个数组，包含所有选中的列的 prop   |
 
 
 ### slots
