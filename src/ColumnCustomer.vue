@@ -30,7 +30,7 @@
 
       <div slot="reference" class="columns-customer__trigger">
         <slot name="reference">
-          <div>
+          <div class="customer-wrapper">
             <i class="el-icon-menu"></i>
             <span class="btn" :class="{ isActive: visible }">
               表格自定义
@@ -131,15 +131,12 @@ export default {
     font-size: 14px;
     color: #646464;
 
-    img {
-      width: 16px;
-      height: 16px;
-      transform: translate(0, 3px);
-      margin-right: 4px;
+    $active-color: #1890ff;
+    .customer-wrapper:hover {
+      color: $active-color;
     }
 
     .btn {
-      $active-color: #1890ff;
       cursor: pointer;
       &:hover {
         color: $active-color;
