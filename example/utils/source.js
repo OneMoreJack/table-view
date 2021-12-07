@@ -1,3 +1,4 @@
+
 export function getSourceData() {
   return [
     {
@@ -25,4 +26,25 @@ export function getSourceData() {
       date: "2016-10-04",
     },
   ];
+}
+
+
+export function searchData(params = {}) {
+  const source = getSourceData()
+
+  const isEmpty = val => [ '', null, undefined ].includes(val)
+
+  const isMatch = item => {
+    const entrys = Object.entries(params)
+    const idxOf = (str, sub) => String.prototype.indexOf.call(str, sub)
+    
+    for (let [key, value] of entrys) {
+      if (!isEmpty(value) && item[key] && idxOf(item[key], value) < 0) {
+        return false
+      }
+    }
+    return true
+  }
+
+  return source.filter(item => isMatch(item))
 }

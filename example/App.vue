@@ -5,7 +5,7 @@
         <span :key="route.name">
           <router-link 
             :to="route.path"
-          >{{route.name}}</router-link>
+          >{{route.meta.title}}</router-link>
           <span v-if="index < routes.length - 1"> | </span>
         </span>
       </template>
