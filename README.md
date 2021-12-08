@@ -1,7 +1,6 @@
 # TableView
 >此组件是基于 ElementUI 2.x 的二次封装
 
----
 <!-- TOC anchorMode:github.com -->
 
 - [TableView](#tableview)
@@ -22,7 +21,6 @@
 
 <!-- /TOC -->
 
----
 
 ## 写在前面
 
@@ -259,13 +257,16 @@ export default {
 export default {
   // ...
   methods: {
-    async getDataList(params, callback) {
-      const res = await Api.getList(params)
-      callback({
-        listData: res.list, // 表格数据
-        total: res.total,   // 总数
-        page: res.page      // 当前页数
-      })
+    getDataList(params, callback) {
+      Api
+      .getList(params)
+      .then(res => {
+        callback({
+          listData: res.list, // 表格数据
+          total: res.total,   // 总数
+          page: res.page      // 当前页数
+        })
+      ) 
     }
   }
 }
